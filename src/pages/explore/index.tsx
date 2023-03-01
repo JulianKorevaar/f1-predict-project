@@ -79,7 +79,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   return {
     props: {
       url: process.env.API_URL,

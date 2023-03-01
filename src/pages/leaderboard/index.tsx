@@ -70,7 +70,7 @@ const Leaderboard: NextPage<IProps> = ({ users }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   const usersRequest = await fetch(`${process.env.API_URL}/users`);
   const users = await usersRequest.json();
 

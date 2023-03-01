@@ -399,7 +399,7 @@ const Predict: NextPage<IProps> = ({ url, races, drivers }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   const resRaces = await fetch(`${process.env.API_URL}/races`);
   const resDrivers = await fetch(`${process.env.API_URL}/drivers`);
 
