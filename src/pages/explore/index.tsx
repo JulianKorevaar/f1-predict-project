@@ -1,17 +1,12 @@
 import { SetStateAction, useState } from 'react';
 
-import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { Background } from '../../components/background/Background';
 import { HeroOneInput } from '../../components/hero/HeroOneInput';
 import { Section } from '../../layout/Section';
 
-type IProps = {
-  url: string;
-};
-
-const LandingPage: NextPage<IProps> = () => {
+const LandingPage = () => {
   const router = useRouter();
 
   const [name, setName] = useState('');
@@ -77,14 +72,6 @@ const LandingPage: NextPage<IProps> = () => {
       </Section>
     </Background>
   );
-};
-
-export const getStaticProps: GetServerSideProps = async () => {
-  return {
-    props: {
-      url: process.env.API_URL,
-    },
-  };
 };
 
 export default LandingPage;

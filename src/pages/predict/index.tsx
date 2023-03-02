@@ -1,7 +1,7 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import moment from 'moment';
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import { Background } from '../../components/background/Background';
@@ -9,37 +9,67 @@ import { PredictRaceInfo } from '../../components/predict/PredictRaceInfo';
 import { PredictTopPicks } from '../../components/predict/PredictTopPicks';
 import { Section } from '../../layout/Section';
 
-type IProps = {
-  races: [
+type IRaceProps = {
+  race: string;
+  flag: string;
+  track: string;
+  date: Date;
+  bonus_question?: string;
+  number: number;
+  predictions?: [
     {
-      race: string;
-      flag: string;
-      track: string;
-      date: Date;
-      bonus_question?: string;
+      user: string;
+      kwali: [number, number, number];
+      race: [number, number, number];
+      bonus: number;
       number: number;
-      predictions?: [
-        {
-          user: string;
-          kwali: [number, number, number];
-          race: [number, number, number];
-          bonus: number;
-          number: number;
-        }
-      ];
-    }
-  ];
-  drivers: [
-    {
-      name: string;
-      racenumber: number;
     }
   ];
 };
 
-const Predict: NextPage<IProps> = ({ races, drivers }) => {
+type IDriverProps = {
+  name: string;
+  racenumber: number;
+};
+
+const Predict = () => {
   const router = useRouter();
   let currentName: string | null;
+
+  const [races, setRaces] = useState<IRaceProps[]>([]);
+  useEffect(() => {
+    const fetchRaces = async () => {
+      const resRaces = await fetch(`/api/races`);
+      const racesData = await resRaces.json();
+
+      const permRaces = await Promise.all(
+        racesData.map(async (race: { number: any }) => {
+          const res = await fetch(`/api/prediction/${race.number}`);
+          const permData = await res.json();
+
+          return {
+            ...race,
+            predictions: permData,
+          };
+        })
+      );
+
+      setRaces(permRaces);
+    };
+    fetchRaces();
+  }, []);
+
+  const [drivers, setDrivers] = useState<IDriverProps[]>([]);
+  useEffect(() => {
+    const fetchDrivers = async () => {
+      const resDrivers = await fetch(`/api/drivers`);
+      const driversData = await resDrivers.json();
+
+      setDrivers(driversData);
+    };
+    fetchDrivers();
+  }, []);
+
   const [currentRace, setCurrentRace] = useState(0);
 
   if (typeof window !== 'undefined') {

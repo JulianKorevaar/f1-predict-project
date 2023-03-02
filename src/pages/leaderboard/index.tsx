@@ -1,24 +1,31 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/router';
 
 import { Background } from '../../components/background/Background';
 import { LeaderboardHeader } from '../../components/leaderboard/LeaderboardHeader';
 import { Section } from '../../layout/Section';
 
-type IProps = {
-  users: [
-    {
-      name: string;
-      points: number;
-      current_gp: number;
-    }
-  ];
+type IUserProps = {
+  name: string;
+  points: number;
+  current_gp: number;
 };
 
-const Leaderboard: NextPage<IProps> = ({ users }) => {
+const Leaderboard = () => {
+  const [users, setUsers] = useState<IUserProps[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const res = await fetch('/api/users');
+      const usersData = await res.json();
+      setUsers(usersData);
+    };
+    fetchUsers();
+  }, []);
+
   // Sort users in descending order based on their points
   const sortedUsers = [...users].sort((a, b) => b.points - a.points);
-  console.log(sortedUsers);
 
   const router = useRouter();
 
@@ -69,17 +76,6 @@ const Leaderboard: NextPage<IProps> = ({ users }) => {
       </Section>
     </Background>
   );
-};
-
-export const getStaticProps: GetServerSideProps = async () => {
-  const usersRequest = await fetch(`${process.env.API_URL}/users`);
-  const users = await usersRequest.json();
-
-  return {
-    props: {
-      users,
-    },
-  };
 };
 
 export default Leaderboard;
