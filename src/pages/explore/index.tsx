@@ -25,7 +25,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://www.f1-predict-game.com',
         },
         body: JSON.stringify({
           name: name.toLowerCase(),
