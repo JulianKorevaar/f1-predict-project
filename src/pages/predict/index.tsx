@@ -10,7 +10,6 @@ import { PredictTopPicks } from '../../components/predict/PredictTopPicks';
 import { Section } from '../../layout/Section';
 
 type IProps = {
-  url: string;
   races: [
     {
       race: string;
@@ -38,7 +37,7 @@ type IProps = {
   ];
 };
 
-const Predict: NextPage<IProps> = ({ url, races, drivers }) => {
+const Predict: NextPage<IProps> = ({ races, drivers }) => {
   const router = useRouter();
   let currentName: string | null;
   const [currentRace, setCurrentRace] = useState(0);
@@ -126,8 +125,7 @@ const Predict: NextPage<IProps> = ({ url, races, drivers }) => {
     }
 
     // post prediction
-    await fetch(`${url}/prediction`, {
-      mode: 'no-cors',
+    await fetch('/api/createPrediction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -423,7 +421,6 @@ export const getStaticProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      url: process.env.API_URL,
       races: permRaces,
       drivers,
     },

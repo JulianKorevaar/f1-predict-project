@@ -21,8 +21,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
     const user = await res.json();
 
     if (user.length === 0) {
-      await fetch(`${url}/users/`, {
-        mode: 'no-cors',
+      await fetch('/api/addUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,8 +31,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
           points: 0,
           current_gp: 0,
         }),
-      }).then((resp) => {
-        console.log(resp);
+      }).then(() => {
         localStorage.setItem('name', name.toLowerCase());
       });
     } else {
