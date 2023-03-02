@@ -25,6 +25,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({
           name: name.toLowerCase(),
