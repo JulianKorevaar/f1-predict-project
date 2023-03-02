@@ -14,14 +14,14 @@ const VerticalFeatures = () => (
     />
     <VerticalFeatureRow
       title="2"
-      description="Per race worden er punten toegekend aan de top 3 voor de kwalificatie en de race uitslag en eventueel een bonus vraag. Voor de kwalificatie en de race krijg je 3 punten per goede voorspelling. Als je de bonus vraag goed beantwoord krijg je 7 punten. Per GP weekend kan je dus 25 punten verdienen."
+      description="Per race worden er punten toegekend aan de top 3 voor de kwalificatie en de race uitslag + eventueel een bonus vraag. Voor de kwalificatie en de race krijg je 3 punten per goede voorspelling. Als je de bonus vraag goed beantwoord krijg je 7 punten. Per GP weekend kan je dus 25 punten verdienen."
       image="/assets/images/counting.gif"
       imageAlt="Second feature alt text"
       reverse
     />
     <VerticalFeatureRow
       title="3"
-      description="Uiteindelijk degene die bovenaan het scoreboord zal de meestervoorspeller zijn van het F1 seizoen 2023."
+      description="Uiteindelijk degene bovenaan het scoreboord zal de meestervoorspeller zijn van het F1 seizoen 2023."
       image="/assets/images/max_cheering.gif"
       imageAlt="Third feature alt text"
     />
