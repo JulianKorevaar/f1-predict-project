@@ -3,7 +3,7 @@ export const AppConfig = {
   title: 'F1 Voorspellen',
   description: 'Platform om de F1 te voorspellen',
   locale: 'nl',
-  points_good_pick_kwali: 3,
-  points_good_pick_race: 3,
-  points_good_pick_bonus: 7,
+  points_good_pick_kwali: [3, 2, 1],
+  points_good_pick_race: [3, 2, 1],
+  points_good_pick_bonus: 3,
 };
