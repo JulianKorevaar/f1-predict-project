@@ -11,13 +11,13 @@ type IProps = {
   url: string;
 };
 
-const LandingPage: NextPage<IProps> = ({ url }) => {
+const LandingPage: NextPage<IProps> = () => {
   const router = useRouter();
 
   const [name, setName] = useState('');
 
   const handleButtonClick = async () => {
-    const res = await fetch(`${url}/users/${name.toLowerCase()}`);
+    const res = await fetch(`/api/users/${name.toLowerCase()}`);
     const user = await res.json();
 
     if (user.length === 0) {
