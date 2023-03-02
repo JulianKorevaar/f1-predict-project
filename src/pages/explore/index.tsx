@@ -23,10 +23,6 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
     if (user.length === 0) {
       await fetch(`${url}/users/`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://www.f1-predict-game.com',
-        },
         body: JSON.stringify({
           name: name.toLowerCase(),
           points: 0,
