@@ -127,6 +127,7 @@ const Predict: NextPage<IProps> = ({ url, races, drivers }) => {
 
     // post prediction
     await fetch(`${url}/prediction`, {
+      mode: 'no-cors',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
