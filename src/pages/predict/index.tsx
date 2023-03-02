@@ -135,10 +135,10 @@ const Predict = () => {
 
   const handleButtonClick = async () => {
     const deadline = moment(races[currentRace]?.date)
-      .subtract(2, 'days')
+      .subtract(3, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(0, 0, 0, 0);
+    deadline.setHours(23, 59, 59, 59);
 
     if (new Date() > deadline) {
       alert('Je hebt te laat ingezet!');
