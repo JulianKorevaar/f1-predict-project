@@ -18,6 +18,7 @@ type IProps = {
 const Leaderboard: NextPage<IProps> = ({ users }) => {
   // Sort users in descending order based on their points
   const sortedUsers = [...users].sort((a, b) => b.points - a.points);
+  console.log(sortedUsers);
 
   const router = useRouter();
 
