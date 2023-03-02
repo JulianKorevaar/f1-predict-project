@@ -18,7 +18,7 @@ const LandingPage = () => {
     const user = await res.json();
 
     if (user.length === 0) {
-      await fetch('/api/addUser', {
+      await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

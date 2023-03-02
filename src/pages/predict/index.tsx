@@ -156,7 +156,7 @@ const Predict = () => {
     }
 
     // post prediction
-    await fetch('/api/createPrediction', {
+    await fetch('/api/prediction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
