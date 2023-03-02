@@ -23,6 +23,9 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
     if (user.length === 0) {
       await fetch(`${url}/users/`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name: name.toLowerCase(),
           points: 0,
