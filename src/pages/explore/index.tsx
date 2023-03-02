@@ -22,6 +22,7 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
 
     if (user.length === 0) {
       await fetch(`${url}/users/`, {
+        mode: 'no-cors',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
