@@ -32,7 +32,8 @@ const LandingPage: NextPage<IProps> = ({ url }) => {
           points: 0,
           current_gp: 0,
         }),
-      }).then(() => {
+      }).then((resp) => {
+        console.log(resp);
         localStorage.setItem('name', name.toLowerCase());
       });
     } else {
