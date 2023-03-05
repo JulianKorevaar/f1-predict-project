@@ -14,7 +14,7 @@ const VerticalFeatures = () => (
     />
     <VerticalFeatureRow
       title="2"
-      description="Per race worden er punten toegekend aan de top 3 voor de kwalificatie en de race uitslag + eventueel een bonus vraag. Voor de kwalificatie en de race krijg je 3 punten per goede voorspelling. Als je de bonus vraag goed beantwoord krijg je 7 punten. Per GP weekend kan je dus 25 punten verdienen."
+      description="Per race worden er punten toegekend aan de top 3 voor de kwalificatie en de race uitslag + eventueel een bonus vraag. Voor de kwalificatie en de race volgt dit puntensysteem: 1e plek goed = 3 punten, 2e plek goed = 2 punten, 3e plek goed = 1 punt. Als je de bonus vraag goed beantwoord krijg je 3 punten. Per GP weekend kan je dus 15 punten verdienen."
       image="/assets/images/counting.gif"
       imageAlt="Second feature alt text"
       reverse
