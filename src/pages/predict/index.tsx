@@ -135,7 +135,7 @@ const Predict = () => {
 
   const handleButtonClick = async () => {
     const deadline = moment(races[currentRace]?.date)
-      .subtract(3, 'days')
+      .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
     deadline.setHours(23, 59, 59, 59);
