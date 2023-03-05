@@ -140,6 +140,11 @@ const Predict = () => {
       .toDate();
     deadline.setHours(23, 59, 59, 59);
 
+    if (currentName === null || currentName === '') {
+      alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
+      return;
+    }
+
     if (new Date() > deadline) {
       alert('Je hebt te laat ingezet!');
       return;
