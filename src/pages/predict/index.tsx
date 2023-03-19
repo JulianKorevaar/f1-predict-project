@@ -7,6 +7,7 @@ import { Background } from '../../components/background/Background';
 import { PredictRaceInfo } from '../../components/predict/PredictRaceInfo';
 import { PredictTopPicks } from '../../components/predict/PredictTopPicks';
 import { Section } from '../../layout/Section';
+import { AppConfig } from '../../utils/AppConfig';
 
 type IRaceProps = {
   race: string;
@@ -133,7 +134,7 @@ const Predict = () => {
     SET_BONUS_PICK(event.target.value);
   };
 
-  const handleButtonClick = async () => {
+  const handlePredictButtonClick = async () => {
     const deadline = moment(races[currentRace]?.date)
       .subtract(2, 'days')
       .local() // convert to local time zone
@@ -191,7 +192,7 @@ const Predict = () => {
   };
 
   const isNextButtonDisabled = () => {
-    return currentRace >= 22;
+    return currentRace >= AppConfig.amount_of_races;
   };
 
   const getNameByDriverNumer = (number: number) => {
@@ -446,7 +447,7 @@ const Predict = () => {
                     <button
                       type="submit"
                       className="w-1/4 px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 md:py-4 md:text-lg md:px-10"
-                      onClick={handleButtonClick}
+                      onClick={handlePredictButtonClick}
                     >
                       Voorspel
                     </button>
