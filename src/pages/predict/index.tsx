@@ -37,7 +37,21 @@ const Predict = () => {
   let currentName: string | null;
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [currentRace, setCurrentRace] = useState(0);
+  const [isAfterRaceStart, setIsAfterRaceStart] = useState<boolean>(true);
+
   const [races, setRaces] = useState<IRaceProps[]>([]);
+  const [drivers, setDrivers] = useState<IDriverProps[]>([]);
+
+  const checkIsAfterRaceStart = (raceNumber: number) => {
+    const timeAfterRace = moment(races[raceNumber]?.date)
+      .add(2, 'hours')
+      .local() // convert to local time zone
+      .toDate();
+
+    return new Date() > timeAfterRace;
+  };
+
   useEffect(() => {
     const fetchRaces = async () => {
       const resRaces = await fetch(`/api/races`);
@@ -61,7 +75,6 @@ const Predict = () => {
     fetchRaces();
   }, []);
 
-  const [drivers, setDrivers] = useState<IDriverProps[]>([]);
   useEffect(() => {
     const fetchDrivers = async () => {
       const resDrivers = await fetch(`/api/drivers`);
@@ -71,8 +84,6 @@ const Predict = () => {
     };
     fetchDrivers();
   }, []);
-
-  const [currentRace, setCurrentRace] = useState(0);
 
   if (typeof window !== 'undefined') {
     currentName = localStorage.getItem('name');
@@ -180,10 +191,12 @@ const Predict = () => {
   };
 
   const handlePreviousButtonClick = async () => {
+    setIsAfterRaceStart(checkIsAfterRaceStart(currentRace - 1));
     setCurrentRace(currentRace - 1);
   };
 
   const handleNextButtonClick = async () => {
+    setIsAfterRaceStart(checkIsAfterRaceStart(currentRace + 1));
     setCurrentRace(currentRace + 1);
   };
 
@@ -282,7 +295,18 @@ const Predict = () => {
               (prediction) => prediction.user === currentName
             ) ? (
               <div className="text-gray-500 text-sm text-center">
-                Je hebt al gestemd voor deze race.
+                <h1> Je hebt al gestemd voor deze race. </h1>
+                {isAfterRaceStart && (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    type="submit"
+                    onClick={() =>
+                      router.push(`/predict/result/${currentRace + 1}`)
+                    }
+                  >
+                    Bekijk andere voorspellingen
+                  </button>
+                )}
                 {races[currentRace]?.predictions?.map((prediction) => {
                   if (prediction.user === currentName) {
                     return (

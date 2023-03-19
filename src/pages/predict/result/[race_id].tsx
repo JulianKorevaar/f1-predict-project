@@ -7,6 +7,7 @@ import { Background } from '../../../components/background/Background';
 import { PredictionInfo } from '../../../components/predict/PredictionInfo';
 import { PredictTopPicks } from '../../../components/predict/PredictTopPicks';
 import { Section } from '../../../layout/Section';
+import { AppConfig } from '../../../utils/AppConfig';
 
 type IRaceProps = {
   race: string;
@@ -205,7 +206,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.kwali[0] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_kwali[0]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -228,7 +231,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.kwali[1] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_kwali[1]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -251,7 +256,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.kwali[2] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_kwali[2]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -279,7 +286,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.race[0] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[0]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -302,7 +311,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.race[1] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[1]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -325,7 +336,9 @@ const PredictResult: NextPage<PageProps> = (props) => {
                           <span className="text-green-500">
                             {getNameByDriverNumer(
                               race?.predictions?.[index]?.race[2] as number
-                            )}
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[2]})
                           </span>
                         ) : (
                           <span className="text-red-500">
@@ -350,7 +363,8 @@ const PredictResult: NextPage<PageProps> = (props) => {
                                 race?.result?.bonus as number
                               ) ? (
                                 <span className="text-green-500">
-                                  {race?.predictions?.[index]?.bonus}
+                                  {race?.predictions?.[index]?.bonus} (+
+                                  {AppConfig.points_good_pick_bonus})
                                 </span>
                               ) : (
                                 <span className="text-red-500">
