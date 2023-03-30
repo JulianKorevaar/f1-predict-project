@@ -33,7 +33,10 @@ const PredictRaceInfo = (props: IHeroRaceInfoProps) => {
       <div className="text-2xl mt-4 mb-5">{props.track}</div>
       <div className="text-2xl mt-4 mb-1">
         Race start:{' '}
-        {moment(props.date).subtract(2, 'hour').format('DD-MM-YYYY HH:mm')}
+        {moment(props.date)
+          .subtract(2, 'hour')
+          .local()
+          .format('DD-MM-YYYY HH:mm')}
       </div>
       <div className="text-1xl mt-4 mb-1 text-red-500 ml-2">
         (Deadline: {moment(deadline).format('DD-MM-YYYY HH:mm')})
