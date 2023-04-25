@@ -147,10 +147,10 @@ const Predict = () => {
 
   const handlePredictButtonClick = async () => {
     const deadline = moment(races[currentRace]?.date)
-      .subtract(3, 'days')
+      .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(23, 59, 59, 59);
+    deadline.setHours(14, 59, 59, 59);
 
     if (currentName === null || currentName === '') {
       alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
