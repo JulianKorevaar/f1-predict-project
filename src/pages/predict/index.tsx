@@ -45,7 +45,7 @@ const Predict = () => {
 
   const checkIsAfterRaceStart = (raceNumber: number) => {
     const timeAfterRace = moment(races[raceNumber]?.date)
-      .add(1, 'hours')
+      .add(0, 'hours')
       .local() // convert to local time zone
       .toDate();
 
