@@ -25,6 +25,7 @@ export const connect = async () => {
     track: String,
     number: Number,
     bonus_question: String,
+    canceled: Boolean,
   });
 
   const DriverSchema = new mongoose.Schema({

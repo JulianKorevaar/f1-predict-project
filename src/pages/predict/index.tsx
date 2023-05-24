@@ -15,6 +15,7 @@ type IRaceProps = {
   track: string;
   date: Date;
   bonus_question?: string;
+  canceled?: boolean;
   number: number;
   predictions?: [
     {
@@ -45,7 +46,7 @@ const Predict = () => {
 
   const checkIsAfterRaceStart = (raceNumber: number) => {
     const timeAfterRace = moment(races[raceNumber]?.date)
-      .add(0, 'hours')
+      .add(2, 'hours')
       .local() // convert to local time zone
       .toDate();
 
@@ -212,6 +213,11 @@ const Predict = () => {
     return drivers.find((driver) => driver.racenumber === number)?.name;
   };
 
+  const isRaceCanceled = races[currentRace]?.canceled;
+  const hasPrediction = races[currentRace]?.predictions?.some(
+    (prediction) => prediction.user === currentName
+  );
+
   return (
     <Background color="bg-gray-100" className="h-screen fixed inset-0">
       <div className="overflow-y-auto h-full">
@@ -291,193 +297,211 @@ const Predict = () => {
                 )
               }
             />
-            {races[currentRace]?.predictions?.some(
-              (prediction) => prediction.user === currentName
-            ) ? (
-              <div className="text-gray-500 text-sm text-center">
-                <h1> Je hebt al gestemd voor deze race. </h1>
-                {isAfterRaceStart && (
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                    type="submit"
-                    onClick={() =>
-                      router.push(`/predict/result/${currentRace + 1}`)
-                    }
-                  >
-                    Bekijk andere voorspellingen
-                  </button>
-                )}
-                {races[currentRace]?.predictions?.map((prediction) => {
-                  if (prediction.user === currentName) {
-                    return (
-                      <Section key={prediction.number}>
-                        <PredictTopPicks
-                          type={'Kwalificatie'}
-                          firstPick={getNameByDriverNumer(prediction.kwali[0])}
-                          secondPick={getNameByDriverNumer(prediction.kwali[1])}
-                          thirdPick={getNameByDriverNumer(prediction.kwali[2])}
-                        />
-                        <br></br>
-                        <br></br>
-                        <PredictTopPicks
-                          type={'Race'}
-                          firstPick={getNameByDriverNumer(prediction.race[0])}
-                          secondPick={getNameByDriverNumer(prediction.race[1])}
-                          thirdPick={getNameByDriverNumer(prediction.race[2])}
-                          bonusPick={
-                            races[currentRace]?.bonus_question ? (
-                              <>
-                                <h1> {races[currentRace]?.bonus_question} </h1>
-                                <h1> {prediction.bonus} </h1>
-                              </>
-                            ) : null
-                          }
-                        ></PredictTopPicks>
-                      </Section>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            ) : (
-              <>
-                <PredictTopPicks
-                  type={'Kwalificatie'}
-                  firstPick={
-                    <select
-                      name="first pick"
-                      id="first"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={FIRST_PICK_Q}
-                      onChange={handleSelectChangeFirst}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                  secondPick={
-                    <select
-                      name="second pick"
-                      id="second"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={SECOND_PICK_Q}
-                      onChange={handleSelectChangeSecond}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                  thirdPick={
-                    <select
-                      name="third pick"
-                      id="third"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={THIRD_PICK_Q}
-                      onChange={handleSelectChangeThird}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                />
-                <br></br>
-                <br></br>
-                <PredictTopPicks
-                  type={'Race'}
-                  firstPick={
-                    <select
-                      name="first pick race"
-                      id="first_race"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={FIRST_PICK_R}
-                      onChange={handleSelectChangeFirstR}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                  secondPick={
-                    <select
-                      name="second pick race"
-                      id="second_race"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={SECOND_PICK_R}
-                      onChange={handleSelectChangeSecondR}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                  thirdPick={
-                    <select
-                      name="third pick race"
-                      id="third_race"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                      style={{ fontSize: '1.25rem' }}
-                      value={THIRD_PICK_R}
-                      onChange={handleSelectChangeThirdR}
-                    >
-                      <option value="">Selecteer een coureur</option>
-                      {drivers.map((driver) => (
-                        <option key={driver.name} value={driver.racenumber}>
-                          {driver.name} # {driver.racenumber}
-                        </option>
-                      ))}
-                    </select>
-                  }
-                  bonusPick={
-                    races[currentRace]?.bonus_question && (
-                      <>
-                        <h1> {races[currentRace]?.bonus_question} </h1>
-                        <br></br>
-                        <input
-                          type="number"
-                          name="bonus pick"
-                          id="bonus"
-                          className="w-1/4 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                          style={{ fontSize: '1.25rem' }}
-                          value={BONUS_PICK}
-                          onChange={handleSelectChangeBonus}
-                        ></input>
-                      </>
-                    )
-                  }
-                  submit={
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {!isRaceCanceled ? (
+              hasPrediction ? (
+                <div className="text-gray-500 text-sm text-center">
+                  <h1> Je hebt al gestemd voor deze race. </h1>
+                  {isAfterRaceStart && (
                     <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                       type="submit"
-                      className="w-1/4 px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 md:py-4 md:text-lg md:px-10"
-                      onClick={handlePredictButtonClick}
+                      onClick={() =>
+                        router.push(`/predict/result/${currentRace + 1}`)
+                      }
                     >
-                      Voorspel
+                      Bekijk andere voorspellingen
                     </button>
-                  }
-                />
-              </>
+                  )}
+                  {races[currentRace]?.predictions?.map((prediction) => {
+                    if (prediction.user === currentName) {
+                      return (
+                        <Section key={prediction.number}>
+                          <PredictTopPicks
+                            type={'Kwalificatie'}
+                            firstPick={getNameByDriverNumer(
+                              prediction.kwali[0]
+                            )}
+                            secondPick={getNameByDriverNumer(
+                              prediction.kwali[1]
+                            )}
+                            thirdPick={getNameByDriverNumer(
+                              prediction.kwali[2]
+                            )}
+                          />
+                          <br></br>
+                          <br></br>
+                          <PredictTopPicks
+                            type={'Race'}
+                            firstPick={getNameByDriverNumer(prediction.race[0])}
+                            secondPick={getNameByDriverNumer(
+                              prediction.race[1]
+                            )}
+                            thirdPick={getNameByDriverNumer(prediction.race[2])}
+                            bonusPick={
+                              races[currentRace]?.bonus_question ? (
+                                <>
+                                  <h1>
+                                    {' '}
+                                    {races[currentRace]?.bonus_question}{' '}
+                                  </h1>
+                                  <h1> {prediction.bonus} </h1>
+                                </>
+                              ) : null
+                            }
+                          ></PredictTopPicks>
+                        </Section>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              ) : (
+                <>
+                  <PredictTopPicks
+                    type={'Kwalificatie'}
+                    firstPick={
+                      <select
+                        name="first pick"
+                        id="first"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={FIRST_PICK_Q}
+                        onChange={handleSelectChangeFirst}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    secondPick={
+                      <select
+                        name="second pick"
+                        id="second"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={SECOND_PICK_Q}
+                        onChange={handleSelectChangeSecond}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    thirdPick={
+                      <select
+                        name="third pick"
+                        id="third"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={THIRD_PICK_Q}
+                        onChange={handleSelectChangeThird}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                  />
+                  <br></br>
+                  <br></br>
+                  <PredictTopPicks
+                    type={'Race'}
+                    firstPick={
+                      <select
+                        name="first pick race"
+                        id="first_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={FIRST_PICK_R}
+                        onChange={handleSelectChangeFirstR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    secondPick={
+                      <select
+                        name="second pick race"
+                        id="second_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={SECOND_PICK_R}
+                        onChange={handleSelectChangeSecondR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    thirdPick={
+                      <select
+                        name="third pick race"
+                        id="third_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={THIRD_PICK_R}
+                        onChange={handleSelectChangeThirdR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    bonusPick={
+                      races[currentRace]?.bonus_question && (
+                        <>
+                          <h1> {races[currentRace]?.bonus_question} </h1>
+                          <br></br>
+                          <input
+                            type="number"
+                            name="bonus pick"
+                            id="bonus"
+                            className="w-1/4 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                            style={{ fontSize: '1.25rem' }}
+                            value={BONUS_PICK}
+                            onChange={handleSelectChangeBonus}
+                          ></input>
+                        </>
+                      )
+                    }
+                    submit={
+                      <button
+                        type="submit"
+                        className="w-1/4 px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 md:py-4 md:text-lg md:px-10"
+                        onClick={handlePredictButtonClick}
+                      >
+                        Voorspel
+                      </button>
+                    }
+                  />
+                </>
+              )
+            ) : (
+              <Section>
+                <h1 className="text-2xl font-bold text-center text-gray-900">
+                  Deze race is afgelast
+                </h1>
+              </Section>
             )}
           </Section>
         )}
