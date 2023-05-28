@@ -38,7 +38,7 @@ async function calculatePoints(prediction: any, result: any) {
 // Function to update the points for a user based on a prediction and a race result
 async function updatePointsForUser(prediction: any, result: any) {
   const { User } = await connect();
-  const user = await User.findOne({ name: prediction.user });
+  const user = await User.findOne({ name: prediction.user.trim() });
 
   if (!user) throw new Error('User not found');
 
