@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Background } from '../../components/background/Background';
 import { LeaderboardHeader } from '../../components/leaderboard/LeaderboardHeader';
 import { Section } from '../../layout/Section';
+import { AppConfig } from '../../utils/AppConfig';
 
 type IUserProps = {
   name: string;
@@ -31,7 +32,7 @@ const Leaderboard = () => {
   const router = useRouter();
 
   const handleGoBack = () => {
-    router.push('/predict');
+    router.push(`/predict/${AppConfig.current_race}`);
   };
 
   return (
