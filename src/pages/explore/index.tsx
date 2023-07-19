@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Background } from '../../components/background/Background';
 import { HeroOneInput } from '../../components/hero/HeroOneInput';
 import { Section } from '../../layout/Section';
+import { AppConfig } from '../../utils/AppConfig';
 
 const LandingPage = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const LandingPage = () => {
       localStorage.setItem('name', name.toLowerCase());
     }
 
-    await router.push('/predict');
+    await router.push(`/predict/${AppConfig.current_race}`);
   };
 
   const handleInputChange = (event: {

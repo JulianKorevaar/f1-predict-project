@@ -47,12 +47,15 @@ const PredictResult: NextPage<PageProps> = (props) => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [index, setIndex] = useState<number>(0);
+  const [currentRaceNumber, setCurrentRaceNumber] = useState<number>(0);
 
   const [race, setRace] = useState<IRaceProps | null>(null);
   const [drivers, setDrivers] = useState<IDriverProps[]>([]);
 
   useEffect(() => {
     const fetchRace = async () => {
+      setCurrentRaceNumber(props.raceId);
+
       const resRaces = await fetch(`/api/races/${props.raceId}`);
       const racesData = await resRaces.json();
 
@@ -95,7 +98,7 @@ const PredictResult: NextPage<PageProps> = (props) => {
   };
 
   const backToPredictions = () => {
-    router.push('/predict');
+    router.push(`/predict/${currentRaceNumber}`);
   };
 
   const isPreviousButtonDisabled = () => {

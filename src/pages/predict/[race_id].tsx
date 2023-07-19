@@ -1,6 +1,7 @@
 import { SetStateAction, useEffect, useState } from 'react';
 
 import moment from 'moment';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { Background } from '../../components/background/Background';
@@ -33,19 +34,23 @@ type IDriverProps = {
   racenumber: number;
 };
 
-const Predict = () => {
+interface PageProps {
+  raceId: number;
+}
+
+const Predict: NextPage<PageProps> = (props) => {
   const router = useRouter();
   let currentName: string | null;
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [currentRace, setCurrentRace] = useState(0);
   const [isAfterRaceStart, setIsAfterRaceStart] = useState<boolean>(true);
+  const [currentRaceNumber, setCurrentRaceNumber] = useState<number>(0);
 
-  const [races, setRaces] = useState<IRaceProps[]>([]);
+  const [race, setRace] = useState<IRaceProps>();
   const [drivers, setDrivers] = useState<IDriverProps[]>([]);
 
-  const checkIsAfterRaceStart = (raceNumber: number) => {
-    const timeAfterRace = moment(races[raceNumber]?.date)
+  const checkIsAfterRaceStart = () => {
+    const timeAfterRace = moment(race?.date)
       .add(2, 'hours')
       .local() // convert to local time zone
       .toDate();
@@ -54,27 +59,23 @@ const Predict = () => {
   };
 
   useEffect(() => {
-    const fetchRaces = async () => {
-      const resRaces = await fetch(`/api/races`);
-      const racesData = await resRaces.json();
+    const fetchRace = async () => {
+      setCurrentRaceNumber(props.raceId);
 
-      const permRaces = await Promise.all(
-        racesData.map(async (race: { number: any }) => {
-          const res = await fetch(`/api/prediction/${race.number}`);
-          const permData = await res.json();
+      const raceRes = await fetch(`/api/races/${props.raceId}`);
+      const raceData = await raceRes.json();
+      const predictionRes = await fetch(`/api/prediction/${props.raceId}`);
+      const predictionData = await predictionRes.json();
 
-          return {
-            ...race,
-            predictions: permData,
-          };
-        })
-      );
-
-      setRaces(permRaces);
+      setRace({
+        ...raceData[0],
+        predictions: predictionData,
+      });
+      setIsAfterRaceStart(checkIsAfterRaceStart());
       setLoading(false);
     };
-    fetchRaces();
-  }, []);
+    fetchRace();
+  }, [props.raceId]);
 
   useEffect(() => {
     const fetchDrivers = async () => {
@@ -147,7 +148,7 @@ const Predict = () => {
   };
 
   const handlePredictButtonClick = async () => {
-    const deadline = moment(races[currentRace]?.date)
+    const deadline = moment(race?.date)
       .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
@@ -184,7 +185,7 @@ const Predict = () => {
         kwali: [FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q],
         race: [FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R],
         bonus: BONUS_PICK,
-        number: currentRace + 1,
+        number: currentRaceNumber + 1,
       }),
     }).then(() => {
       window.location.reload();
@@ -192,29 +193,30 @@ const Predict = () => {
   };
 
   const handlePreviousButtonClick = async () => {
-    setIsAfterRaceStart(checkIsAfterRaceStart(currentRace - 1));
-    setCurrentRace(currentRace - 1);
+    const newRaceNumber = currentRaceNumber - 1;
+    await router.push(`/predict/${newRaceNumber}`);
   };
 
   const handleNextButtonClick = async () => {
-    setIsAfterRaceStart(checkIsAfterRaceStart(currentRace + 1));
-    setCurrentRace(currentRace + 1);
+    // add one with Math class
+    const newRaceNumber = Number(currentRaceNumber) + 1;
+    await router.push(`/predict/${newRaceNumber}`);
   };
 
   const isPreviousButtonDisabled = () => {
-    return currentRace === 0;
+    return currentRaceNumber === 0;
   };
 
   const isNextButtonDisabled = () => {
-    return currentRace >= AppConfig.amount_of_races;
+    return currentRaceNumber >= AppConfig.amount_of_races;
   };
 
   const getNameByDriverNumer = (number: number) => {
     return drivers.find((driver) => driver.racenumber === number)?.name;
   };
 
-  const isRaceCanceled = races[currentRace]?.canceled;
-  const hasPrediction = races[currentRace]?.predictions?.some(
+  const isRaceCanceled = race?.canceled;
+  const hasPrediction = race?.predictions?.some(
     (prediction) => prediction.user === currentName
   );
 
@@ -256,16 +258,16 @@ const Predict = () => {
                   Bekijk tussenstand
                 </button>
               }
-              race={races[currentRace]?.race}
+              race={race?.race}
               flag={
                 <img
-                  src={`${router.basePath}/assets/images/${races[currentRace]?.race}.png`}
+                  src={`${router.basePath}/assets/images/${race?.race}.png`}
                   alt="flag"
                   style={{ maxWidth: '70px', maxHeight: '70px' }}
                 />
               }
-              track={races[currentRace]?.track}
-              date={new Date(races[currentRace]?.date as unknown as string)}
+              track={race?.track}
+              date={new Date(race?.date as unknown as string)}
               leftButton={
                 !isPreviousButtonDisabled() ? (
                   <button type="submit" onClick={handlePreviousButtonClick}>
@@ -307,13 +309,13 @@ const Predict = () => {
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                       type="submit"
                       onClick={() =>
-                        router.push(`/predict/result/${currentRace + 1}`)
+                        router.push(`/predict/result/${currentRaceNumber}`)
                       }
                     >
                       Bekijk andere voorspellingen
                     </button>
                   )}
-                  {races[currentRace]?.predictions?.map((prediction) => {
+                  {race?.predictions?.map((prediction) => {
                     if (prediction.user === currentName) {
                       return (
                         <Section key={prediction.number}>
@@ -339,12 +341,9 @@ const Predict = () => {
                             )}
                             thirdPick={getNameByDriverNumer(prediction.race[2])}
                             bonusPick={
-                              races[currentRace]?.bonus_question ? (
+                              race?.bonus_question ? (
                                 <>
-                                  <h1>
-                                    {' '}
-                                    {races[currentRace]?.bonus_question}{' '}
-                                  </h1>
+                                  <h1> {race?.bonus_question} </h1>
                                   <h1> {prediction.bonus} </h1>
                                 </>
                               ) : null
@@ -468,9 +467,9 @@ const Predict = () => {
                       </select>
                     }
                     bonusPick={
-                      races[currentRace]?.bonus_question && (
+                      race?.bonus_question && (
                         <>
-                          <h1> {races[currentRace]?.bonus_question} </h1>
+                          <h1> {race?.bonus_question} </h1>
                           <br></br>
                           <input
                             type="number"
@@ -508,6 +507,14 @@ const Predict = () => {
       </div>
     </Background>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  return {
+    props: {
+      raceId: query.race_id,
+    },
+  };
 };
 
 export default Predict;
