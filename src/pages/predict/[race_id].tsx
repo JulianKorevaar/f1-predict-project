@@ -185,7 +185,7 @@ const Predict: NextPage<PageProps> = (props) => {
         kwali: [FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q],
         race: [FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R],
         bonus: BONUS_PICK,
-        number: currentRaceNumber + 1,
+        number: currentRaceNumber,
       }),
     }).then(() => {
       window.location.reload();
