@@ -7,5 +7,5 @@ export const AppConfig = {
   points_good_pick_race: [3, 2, 1],
   points_good_pick_bonus: 3,
   amount_of_races: 22,
-  current_race: 13,
+  current_race: 14,
 };
