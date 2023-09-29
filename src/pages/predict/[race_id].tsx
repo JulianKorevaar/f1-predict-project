@@ -38,8 +38,14 @@ interface PageProps {
   raceId: number;
 }
 
+const validateBasePath = (basePath: string) => {
+  console.log(basePath);
+  return true;
+};
+
 const Predict: NextPage<PageProps> = (props) => {
   const router = useRouter();
+  validateBasePath(router.basePath);
   let currentName: string | null;
 
   const [loading, setLoading] = useState<boolean>(true);
