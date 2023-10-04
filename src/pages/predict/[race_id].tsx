@@ -158,7 +158,7 @@ const Predict: NextPage<PageProps> = (props) => {
       .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(23, 59, 59, 59);
+    deadline.setHours(18, 59, 59, 59);
 
     if (currentName === null || currentName === '') {
       alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
