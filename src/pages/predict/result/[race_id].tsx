@@ -20,14 +20,36 @@ type IRaceProps = {
     {
       user: string;
       kwali: [number, number, number];
-      race: [number, number, number];
+      race: [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+      ];
       bonus: number;
       number: number;
     }
   ];
   result?: {
     kwali: [number, number, number];
-    race: [number, number, number];
+    race: [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ];
     bonus: number;
     number: number;
   };
@@ -200,86 +222,6 @@ const PredictResult: NextPage<PageProps> = (props) => {
                 <div className="text-gray-500 text-sm text-center">
                   <Section key={race?.predictions?.[index]?.number}>
                     <PredictTopPicks
-                      type={'Kwalificatie'}
-                      firstPick={
-                        checkPrediction(
-                          race?.predictions?.[index]?.kwali[0] as number,
-                          race?.result?.kwali[0] as number
-                        ) ? (
-                          <span className="text-green-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[0] as number
-                            )}{' '}
-                            (+
-                            {AppConfig.points_good_pick_kwali[0]})
-                          </span>
-                        ) : (
-                          <span className="text-red-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[0] as number
-                            )}{' '}
-                            (
-                            {getNameByDriverNumer(
-                              race?.result?.kwali[0] as number
-                            )}
-                            )
-                          </span>
-                        )
-                      }
-                      secondPick={
-                        checkPrediction(
-                          race?.predictions?.[index]?.kwali[1] as number,
-                          race?.result?.kwali[1] as number
-                        ) ? (
-                          <span className="text-green-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[1] as number
-                            )}{' '}
-                            (+
-                            {AppConfig.points_good_pick_kwali[1]})
-                          </span>
-                        ) : (
-                          <span className="text-red-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[1] as number
-                            )}{' '}
-                            (
-                            {getNameByDriverNumer(
-                              race?.result?.kwali[1] as number
-                            )}
-                            )
-                          </span>
-                        )
-                      }
-                      thirdPick={
-                        checkPrediction(
-                          race?.predictions?.[index]?.kwali[2] as number,
-                          race?.result?.kwali[2] as number
-                        ) ? (
-                          <span className="text-green-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[2] as number
-                            )}{' '}
-                            (+
-                            {AppConfig.points_good_pick_kwali[2]})
-                          </span>
-                        ) : (
-                          <span className="text-red-500">
-                            {getNameByDriverNumer(
-                              race?.predictions?.[index]?.kwali[2] as number
-                            )}{' '}
-                            (
-                            {getNameByDriverNumer(
-                              race?.result?.kwali[2] as number
-                            )}
-                            )
-                          </span>
-                        )
-                      }
-                    />
-                    <br></br>
-                    <br></br>
-                    <PredictTopPicks
                       type={'Race'}
                       firstPick={
                         checkPrediction(
@@ -351,6 +293,181 @@ const PredictResult: NextPage<PageProps> = (props) => {
                             (
                             {getNameByDriverNumer(
                               race?.result?.race[2] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      fourthPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[3] as number,
+                          race?.result?.race[3] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[3] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[3]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[3] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[3] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      fifthPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[4] as number,
+                          race?.result?.race[4] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[4] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[4]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[4] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[4] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      sixthPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[5] as number,
+                          race?.result?.race[5] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[5] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[5]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[5] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[5] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      seventhPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[6] as number,
+                          race?.result?.race[6] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[6] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[6]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[6] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[6] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      eightPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[7] as number,
+                          race?.result?.race[7] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[7] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[7]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[7] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[7] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      ninthPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[8] as number,
+                          race?.result?.race[8] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[8] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[8]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[8] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[8] as number
+                            )}
+                            )
+                          </span>
+                        )
+                      }
+                      tenthPick={
+                        checkPrediction(
+                          race?.predictions?.[index]?.race[9] as number,
+                          race?.result?.race[9] as number
+                        ) ? (
+                          <span className="text-green-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[9] as number
+                            )}{' '}
+                            (+
+                            {AppConfig.points_good_pick_race[9]})
+                          </span>
+                        ) : (
+                          <span className="text-red-500">
+                            {getNameByDriverNumer(
+                              race?.predictions?.[index]?.race[9] as number
+                            )}{' '}
+                            (
+                            {getNameByDriverNumer(
+                              race?.result?.race[9] as number
                             )}
                             )
                           </span>

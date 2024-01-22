@@ -5,6 +5,13 @@ type IPredictTopPicksProps = {
   firstPick: ReactNode;
   secondPick: ReactNode;
   thirdPick: ReactNode;
+  fourthPick: ReactNode;
+  fifthPick: ReactNode;
+  sixthPick: ReactNode;
+  seventhPick: ReactNode;
+  eightPick: ReactNode;
+  ninthPick: ReactNode;
+  tenthPick: ReactNode;
   bonusPick?: ReactNode;
   submit?: ReactNode;
 };
@@ -25,6 +32,34 @@ const PredictTopPicks = (props: IPredictTopPicksProps) => (
     <br></br>3e Plaats
     <br></br>
     {props.thirdPick}
+    <br></br>
+    <br></br>4e Plaats
+    <br></br>
+    {props.fourthPick}
+    <br></br>
+    <br></br>5e Plaats
+    <br></br>
+    {props.fifthPick}
+    <br></br>
+    <br></br>6e Plaats
+    <br></br>
+    {props.sixthPick}
+    <br></br>
+    <br></br>7e Plaats
+    <br></br>
+    {props.seventhPick}
+    <br></br>
+    <br></br>8e Plaats
+    <br></br>
+    {props.eightPick}
+    <br></br>
+    <br></br>9e Plaats
+    <br></br>
+    {props.ninthPick}
+    <br></br>
+    <br></br>10e Plaats
+    <br></br>
+    {props.tenthPick}
     <br></br>
     <br></br>
     {props.bonusPick && (
