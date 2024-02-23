@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "moment": "^2.29.4",
     "mongodb": "^3.5.9",
     "mongoose": "^6.10.0",
