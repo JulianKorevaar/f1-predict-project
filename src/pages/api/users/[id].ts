@@ -16,10 +16,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Potential Responses for /todos/:id
   const handleCase: ResponseFuncs = {
     // RESPONSE FOR GET REQUESTS
+    // eslint-disable-next-line consistent-return
     GET: async (_req: NextApiRequest, resGET: NextApiResponse) => {
       const { User } = await connect(); // connect to database
-      console.log(id);
-      resGET.json(await User.find({ name: id }).catch(catcher));
+
+      const data = id.split('-');
+      const name = data[0];
+      const code = data[1];
+
+      if (!name || !code)
+        return resGET.status(400).json({ error: 'Invalid ID' });
+
+      resGET.json(await User.find({ name, code }).catch(catcher));
     },
     // RESPONSE PUT REQUESTS
     PUT: async (reqPUT: NextApiRequest, resPUT: NextApiResponse) => {

@@ -1,6 +1,10 @@
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
     fontSize: {
       xs: '0.75rem',
       sm: '0.875rem',
@@ -16,15 +20,19 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          100: '#E6F6FE',
-          200: '#C0EAFC',
-          300: '#9ADDFB',
-          400: '#4FC3F7',
-          500: '#03A9F4',
-          600: '#0398DC',
-          700: '#026592',
-          800: '#014C6E',
-          900: '#013349',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+          950: '#020617',
+        },
+        sky: {
+          500: '#0EA5E9',
         },
         gray: {
           100: '#f7fafc',

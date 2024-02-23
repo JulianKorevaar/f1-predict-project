@@ -11,5 +11,4 @@ export interface User {
   _id?: number;
   name: string;
   points: number;
-  current_gp: number;
 }

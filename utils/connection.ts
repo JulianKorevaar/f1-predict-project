@@ -14,8 +14,14 @@ export const connect = async () => {
   // OUR USER SCHEMA
   const UserSchema = new mongoose.Schema({
     name: String,
+    code: String,
     points: Number,
-    current_gp: Number,
+  });
+
+  const UserProgressSchema = new mongoose.Schema({
+    name: String,
+    points: Number,
+    raceNumber: Number,
   });
 
   const RaceSchema = new mongoose.Schema({
@@ -61,6 +67,9 @@ export const connect = async () => {
   const RaceResult =
     mongoose.models.RaceResult ||
     (mongoose.model('RaceResult', RaceResultSchema) as any);
+  const UserProgress =
+    mongoose.models.UserProgress ||
+    (mongoose.model('UserProgress', UserProgressSchema) as any);
 
-  return { conn, User, Race, Driver, Prediction, RaceResult };
+  return { conn, User, Race, Driver, Prediction, RaceResult, UserProgress };
 };

@@ -21,7 +21,7 @@ const VerticalFeatures = () => (
     />
     <VerticalFeatureRow
       title="3"
-      description="Uiteindelijk degene bovenaan het scoreboord zal de meestervoorspeller zijn van het F1 seizoen 2023."
+      description="Uiteindelijk degene bovenaan het scoreboord zal de meestervoorspeller zijn van het F1 seizoen 2024."
       image="/assets/images/max_cheering.gif"
       imageAlt="Third feature alt text"
     />

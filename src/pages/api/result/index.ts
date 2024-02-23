@@ -65,9 +65,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     // RESPONSE POST REQUESTS
     POST: async (reqPOST: NextApiRequest, resPOST: NextApiResponse) => {
-      const { RaceResult, Prediction } = await connect(); // connect to database
+      const { RaceResult, Prediction, User, UserProgress } = await connect(); // connect to database
       const result = reqPOST.body as typeof RaceResult;
-      const raceResult = await RaceResult.create(result).catch(catcher);
 
       const predictions = await Prediction.find({
         number: result.number,
@@ -79,6 +78,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
       );
 
+      const users = await User.find({}).catch(catcher);
+
+      await Promise.all(
+        users.map(async (user: any) => {
+          await UserProgress.create({
+            name: user.name,
+            points: user.points,
+            raceNumber: result.number,
+          }).catch(catcher);
+        })
+      );
+
+      const raceResult = await RaceResult.create(result).catch(catcher);
       resPOST.json(raceResult);
     },
   };

@@ -1,10 +1,11 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
 
 import moment from 'moment';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { Background } from '../../components/background/Background';
+import { LoadingIndicator } from '../../components/loading/LoadingIndicator';
 import { PredictRaceInfo } from '../../components/predict/PredictRaceInfo';
 import { PredictTopPicks } from '../../components/predict/PredictTopPicks';
 import { Section } from '../../layout/Section';
@@ -38,35 +39,91 @@ interface PageProps {
   raceId: number;
 }
 
-const validateBasePath = (basePath: string) => {
-  console.log(basePath);
-  return true;
-};
-
 const Predict: NextPage<PageProps> = (props) => {
   const router = useRouter();
-  validateBasePath(router.basePath);
+
   let currentName: string | null;
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [isAfterRaceStart, setIsAfterRaceStart] = useState<boolean>(true);
   const [currentRaceNumber, setCurrentRaceNumber] = useState<number>(0);
 
   const [race, setRace] = useState<IRaceProps>();
   const [drivers, setDrivers] = useState<IDriverProps[]>([]);
 
-  const checkIsAfterRaceStart = () => {
-    const timeAfterRace = moment(race?.date)
-      .add(2, 'hours')
-      .local() // convert to local time zone
-      .toDate();
-
-    return new Date() > timeAfterRace;
+  const [BONUS_PICK, SET_BONUS_PICK] = useState('');
+  const [kwaliPicks, setKwaliPickedValues] = useState<string[]>([]);
+  const handleKwaliSelectChange = (
+    e: ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) => {
+    const newPickedValues = [...kwaliPicks];
+    newPickedValues[index] = e.target.value;
+    setKwaliPickedValues(newPickedValues);
   };
+
+  const [racePicks, setRacePickedValues] = useState<string[]>([]);
+  const handleRaceSelectChange = (
+    e: ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) => {
+    const newPickedValues = [...racePicks];
+    newPickedValues[index] = e.target.value;
+    setRacePickedValues(newPickedValues);
+  };
+
+  const picksKwali = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < AppConfig.amount_of_kwali_picks; i++) {
+    picksKwali.push(
+      <select
+        name={`pick ${i + 1}`}
+        id={`pick-${i + 1}`}
+        className="w-full max-w-xl px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
+        style={{
+          fontSize: '1.25rem',
+          backgroundColor: '#1E293B',
+          textAlign: 'center',
+        }}
+        value={kwaliPicks[i]}
+        onChange={(e) => handleKwaliSelectChange(e, i)}
+      >
+        <option className="text-center" value="">
+          Selecteer een coureur
+        </option>
+        {drivers.map((driver) => (
+          <option key={driver.name} value={driver.racenumber}>
+            {driver.name} # {driver.racenumber}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  const picksRace = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < AppConfig.amount_of_kwali_picks; i++) {
+    picksRace.push(
+      <select
+        name={`pick ${i + 1}`}
+        id={`pick-${i + 1}`}
+        className="w-full max-w-xl px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
+        style={{ fontSize: '1.25rem', backgroundColor: '#1E293B' }}
+        value={racePicks[i]} // You need to manage the selected values
+        onChange={(e) => handleRaceSelectChange(e, i)} // You need to manage the change event
+      >
+        <option value="">Selecteer een coureur</option>
+        {drivers.map((driver) => (
+          <option key={driver.name} value={driver.racenumber}>
+            {driver.name} # {driver.racenumber}
+          </option>
+        ))}
+      </select>
+    );
+  }
 
   useEffect(() => {
     const fetchRace = async () => {
-      setCurrentRaceNumber(props.raceId);
+      setCurrentRaceNumber(Number(props.raceId));
 
       const raceRes = await fetch(`/api/races/${props.raceId}`);
       const raceData = await raceRes.json();
@@ -77,7 +134,6 @@ const Predict: NextPage<PageProps> = (props) => {
         ...raceData[0],
         predictions: predictionData,
       });
-      setIsAfterRaceStart(checkIsAfterRaceStart());
       setLoading(false);
     };
     fetchRace();
@@ -97,54 +153,8 @@ const Predict: NextPage<PageProps> = (props) => {
     currentName = localStorage.getItem('name');
   }
 
-  const [FIRST_PICK_Q, SET_FIRST_PICK_Q] = useState('');
-  const [SECOND_PICK_Q, SET_SECOND_PICK_Q] = useState('');
-  const [THIRD_PICK_Q, SET_THIRD_PICK_Q] = useState('');
-
-  const [FIRST_PICK_R, SET_FIRST_PICK_R] = useState('');
-  const [SECOND_PICK_R, SET_SECOND_PICK_R] = useState('');
-  const [THIRD_PICK_R, SET_THIRD_PICK_R] = useState('');
-
-  const [BONUS_PICK, SET_BONUS_PICK] = useState('');
-
   const openLeaderboard = () => {
     router.push('/leaderboard');
-  };
-
-  const handleSelectChangeFirst = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_FIRST_PICK_Q(event.target.value);
-  };
-
-  const handleSelectChangeSecond = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_SECOND_PICK_Q(event.target.value);
-  };
-
-  const handleSelectChangeThird = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_THIRD_PICK_Q(event.target.value);
-  };
-
-  const handleSelectChangeFirstR = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_FIRST_PICK_R(event.target.value);
-  };
-
-  const handleSelectChangeSecondR = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_SECOND_PICK_R(event.target.value);
-  };
-
-  const handleSelectChangeThirdR = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_THIRD_PICK_R(event.target.value);
   };
 
   const handleSelectChangeBonus = (event: {
@@ -155,7 +165,7 @@ const Predict: NextPage<PageProps> = (props) => {
 
   const handlePredictButtonClick = async () => {
     const deadline = moment(race?.date)
-      .subtract(1, 'days')
+      .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
     deadline.setHours(14, 59, 59, 59);
@@ -170,8 +180,8 @@ const Predict: NextPage<PageProps> = (props) => {
       return;
     }
 
-    const kwaliSet = new Set([FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q]);
-    const raceSet = new Set([FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R]);
+    const kwaliSet = new Set(kwaliPicks);
+    const raceSet = new Set(racePicks);
 
     if (kwaliSet.size !== 3 || raceSet.size !== 3) {
       alert(
@@ -188,8 +198,8 @@ const Predict: NextPage<PageProps> = (props) => {
       },
       body: JSON.stringify({
         user: currentName,
-        kwali: [FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q],
-        race: [FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R],
+        kwali: [kwaliPicks[0], kwaliPicks[1], kwaliPicks[2]],
+        race: [racePicks[0], racePicks[1], racePicks[2]],
         bonus: BONUS_PICK,
         number: currentRaceNumber,
       }),
@@ -210,7 +220,7 @@ const Predict: NextPage<PageProps> = (props) => {
   };
 
   const isPreviousButtonDisabled = () => {
-    return currentRaceNumber === 0;
+    return currentRaceNumber === 1;
   };
 
   const isNextButtonDisabled = () => {
@@ -227,37 +237,21 @@ const Predict: NextPage<PageProps> = (props) => {
   );
 
   return (
-    <Background color="bg-gray-100" className="h-screen fixed inset-0">
+    <Background
+      color="linear-gradient(to bottom, #0F172A, #0F172A)"
+      className="h-screen fixed inset-0"
+    >
       <div className="overflow-y-auto h-full">
         {loading ? (
           <div className="flex justify-center items-center h-full">
-            <svg
-              className="animate-spin h-8 w-8 text-blue-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20a8 8 0 01-8-8H0c0 6.627 5.373 12 12 12v-4zm5-5.291A7.962 7.962 0 0120 12h-4c0 3.042-1.135 5.824-3 7.938l3-2.647z"
-              />
-            </svg>
+            <LoadingIndicator />
           </div>
         ) : (
           <Section yPadding="pt-10 pb-32">
             <PredictRaceInfo
               leaderBoard={
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                  className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-md mt-4"
                   type="submit"
                   onClick={openLeaderboard}
                 >
@@ -308,44 +302,34 @@ const Predict: NextPage<PageProps> = (props) => {
             {/* eslint-disable-next-line no-nested-ternary */}
             {!isRaceCanceled ? (
               hasPrediction ? (
-                <div className="text-gray-500 text-sm text-center">
+                <div className="text-gray-50 text-sm text-center">
                   <h1> Je hebt al gestemd voor deze race. </h1>
-                  {isAfterRaceStart && (
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                      type="submit"
-                      onClick={() =>
-                        router.push(`/predict/result/${currentRaceNumber}`)
-                      }
-                    >
-                      Bekijk andere voorspellingen
-                    </button>
-                  )}
+                  <button
+                    className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded mt-4"
+                    type="submit"
+                    onClick={() =>
+                      router.push(`/predict/result/${currentRaceNumber}`)
+                    }
+                  >
+                    Bekijk andere voorspellingen
+                  </button>
                   {race?.predictions?.map((prediction) => {
                     if (prediction.user === currentName) {
                       return (
                         <Section key={prediction.number}>
                           <PredictTopPicks
                             type={'Kwalificatie'}
-                            firstPick={getNameByDriverNumer(
-                              prediction.kwali[0]
-                            )}
-                            secondPick={getNameByDriverNumer(
-                              prediction.kwali[1]
-                            )}
-                            thirdPick={getNameByDriverNumer(
-                              prediction.kwali[2]
+                            picks={prediction.kwali.map((pick) =>
+                              getNameByDriverNumer(pick)
                             )}
                           />
                           <br></br>
                           <br></br>
                           <PredictTopPicks
                             type={'Race'}
-                            firstPick={getNameByDriverNumer(prediction.race[0])}
-                            secondPick={getNameByDriverNumer(
-                              prediction.race[1]
+                            picks={prediction.race.map((pick) =>
+                              getNameByDriverNumer(pick)
                             )}
-                            thirdPick={getNameByDriverNumer(prediction.race[2])}
                             bonusPick={
                               race?.bonus_question ? (
                                 <>
@@ -363,141 +347,34 @@ const Predict: NextPage<PageProps> = (props) => {
                 </div>
               ) : (
                 <>
-                  <PredictTopPicks
-                    type={'Kwalificatie'}
-                    firstPick={
-                      <select
-                        name="first pick"
-                        id="first"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={FIRST_PICK_Q}
-                        onChange={handleSelectChangeFirst}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    secondPick={
-                      <select
-                        name="second pick"
-                        id="second"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={SECOND_PICK_Q}
-                        onChange={handleSelectChangeSecond}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    thirdPick={
-                      <select
-                        name="third pick"
-                        id="third"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={THIRD_PICK_Q}
-                        onChange={handleSelectChangeThird}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                  />
-                  <br></br>
-                  <br></br>
+                  <PredictTopPicks type={'Kwalificatie'} picks={picksKwali} />
                   <PredictTopPicks
                     type={'Race'}
-                    firstPick={
-                      <select
-                        name="first pick race"
-                        id="first_race"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={FIRST_PICK_R}
-                        onChange={handleSelectChangeFirstR}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    secondPick={
-                      <select
-                        name="second pick race"
-                        id="second_race"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={SECOND_PICK_R}
-                        onChange={handleSelectChangeSecondR}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    thirdPick={
-                      <select
-                        name="third pick race"
-                        id="third_race"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={THIRD_PICK_R}
-                        onChange={handleSelectChangeThirdR}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
+                    picks={picksRace}
                     bonusPick={
                       race?.bonus_question && (
                         <>
-                          <h1> {race?.bonus_question} </h1>
+                          <h1 className="text-gray-50">
+                            {' '}
+                            {race?.bonus_question}{' '}
+                          </h1>
                           <br></br>
                           <input
                             type="number"
                             name="bonus pick"
                             id="bonus"
-                            className="w-1/4 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                            style={{ fontSize: '1.25rem' }}
+                            className="w-1/4 px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
+                            style={{
+                              fontSize: '1.25rem',
+                              backgroundColor: '#1E293B',
+                            }}
                             value={BONUS_PICK}
                             onChange={handleSelectChangeBonus}
                           ></input>
                         </>
                       )
                     }
-                    submit={
-                      <button
-                        type="submit"
-                        className="w-1/4 px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 md:py-4 md:text-lg md:px-10"
-                        onClick={handlePredictButtonClick}
-                      >
-                        Voorspel
-                      </button>
-                    }
+                    onSubmit={handlePredictButtonClick}
                   />
                 </>
               )

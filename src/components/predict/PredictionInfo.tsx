@@ -17,13 +17,15 @@ const PredictionInfo = (props: IHeroPredInfoProps) => {
         <div className="flex items-center">{props.leftButton}</div>
         <div className="flex items-center justify-between">
           {props.flag}
-          <h1 className="lg:text-4xl md:text-3xl sm:text-3xl xs:text-lg text-gray-900 font-bold whitespace-pre-line leading-gp">
+          <h1 className="lg:text-4xl md:text-3xl sm:text-3xl xs:text-lg text-gray-50 font-bold whitespace-pre-line leading-gp">
             GP {props.race}
           </h1>
         </div>
         <div className="flex items-center">{props.rightButton}</div>
       </div>
-      <div className="text-2xl mt-4 mb-5">Voorspelling van: {props.user}</div>
+      <div className="text-gray-100 text-2xl mt-4 mb-5">
+        Voorspelling van: {props.user}
+      </div>
     </header>
   );
 };
