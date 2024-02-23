@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState('');
-  const [code, setCode] = useState(0);
+  const [code, setCode] = useState<number>();
   const [error, setError] = useState('');
 
   const [areYouSure, setAreYouSure] = useState(false);
@@ -22,7 +22,7 @@ const LandingPage = () => {
     setLoading(true);
     setError('');
 
-    if (name === '' || code === 0) {
+    if (name === '' || code === undefined) {
       setLoading(false);
       setError('Vul je naam en code in');
       return;
