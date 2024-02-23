@@ -22,7 +22,18 @@ type IRaceProps = {
     {
       user: string;
       kwali: [number, number, number];
-      race: [number, number, number];
+      race: [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+      ];
       bonus: number;
       number: number;
     }
@@ -97,36 +108,21 @@ const Predict: NextPage<PageProps> = (props) => {
     currentName = localStorage.getItem('name');
   }
 
-  const [FIRST_PICK_Q, SET_FIRST_PICK_Q] = useState('');
-  const [SECOND_PICK_Q, SET_SECOND_PICK_Q] = useState('');
-  const [THIRD_PICK_Q, SET_THIRD_PICK_Q] = useState('');
-
   const [FIRST_PICK_R, SET_FIRST_PICK_R] = useState('');
   const [SECOND_PICK_R, SET_SECOND_PICK_R] = useState('');
   const [THIRD_PICK_R, SET_THIRD_PICK_R] = useState('');
+  const [FOURTH_PICK_R, SET_FOURTH_PICK_R] = useState('');
+  const [FIFTH_PICK_R, SET_FIFTH_PICK_R] = useState('');
+  const [SIXTH_PICK_R, SET_SIXTH_PICK_R] = useState('');
+  const [SEVENTH_PICK_R, SET_SEVENTH_PICK_R] = useState('');
+  const [EIGHT_PICK_R, SET_EIGHT_PICK_R] = useState('');
+  const [NINTH_PICK_R, SET_NINTH_PICK_R] = useState('');
+  const [TENTH_PICK_R, SET_TENTH_PICK_R] = useState('');
 
   const [BONUS_PICK, SET_BONUS_PICK] = useState('');
 
   const openLeaderboard = () => {
     router.push('/leaderboard');
-  };
-
-  const handleSelectChangeFirst = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_FIRST_PICK_Q(event.target.value);
-  };
-
-  const handleSelectChangeSecond = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_SECOND_PICK_Q(event.target.value);
-  };
-
-  const handleSelectChangeThird = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    SET_THIRD_PICK_Q(event.target.value);
   };
 
   const handleSelectChangeFirstR = (event: {
@@ -147,6 +143,48 @@ const Predict: NextPage<PageProps> = (props) => {
     SET_THIRD_PICK_R(event.target.value);
   };
 
+  const handleSelectChangeFourthR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_FOURTH_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeFifthR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_FIFTH_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeSixthR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_SIXTH_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeSeventhR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_SEVENTH_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeEightR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_EIGHT_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeNinthR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_NINTH_PICK_R(event.target.value);
+  };
+
+  const handleSelectChangeTenthR = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    SET_TENTH_PICK_R(event.target.value);
+  };
+
   const handleSelectChangeBonus = (event: {
     target: { value: SetStateAction<string> };
   }) => {
@@ -155,10 +193,10 @@ const Predict: NextPage<PageProps> = (props) => {
 
   const handlePredictButtonClick = async () => {
     const deadline = moment(race?.date)
-      .subtract(1, 'days')
+      .subtract(0, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(14, 59, 59, 59);
+    deadline.setHours(18, 59, 59, 59);
 
     if (currentName === null || currentName === '') {
       alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
@@ -170,12 +208,23 @@ const Predict: NextPage<PageProps> = (props) => {
       return;
     }
 
-    const kwaliSet = new Set([FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q]);
-    const raceSet = new Set([FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R]);
+    // const kwaliSet = new Set([FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q]);
+    const raceSet = new Set([
+      FIRST_PICK_R,
+      SECOND_PICK_R,
+      THIRD_PICK_R,
+      FOURTH_PICK_R,
+      FIFTH_PICK_R,
+      SIXTH_PICK_R,
+      SEVENTH_PICK_R,
+      EIGHT_PICK_R,
+      NINTH_PICK_R,
+      TENTH_PICK_R,
+    ]);
 
-    if (kwaliSet.size !== 3 || raceSet.size !== 3) {
+    if (raceSet.size !== 10) {
       alert(
-        'Je kan niet meerdere (of geen) coureurs tegelijk selecteren voor de kwalificatie of race!'
+        'Je kan niet meerdere (of geen) coureurs tegelijk selecteren voor de race!'
       );
       return;
     }
@@ -188,8 +237,19 @@ const Predict: NextPage<PageProps> = (props) => {
       },
       body: JSON.stringify({
         user: currentName,
-        kwali: [FIRST_PICK_Q, SECOND_PICK_Q, THIRD_PICK_Q],
-        race: [FIRST_PICK_R, SECOND_PICK_R, THIRD_PICK_R],
+        kwali: [],
+        race: [
+          FIRST_PICK_R,
+          SECOND_PICK_R,
+          THIRD_PICK_R,
+          FOURTH_PICK_R,
+          FIFTH_PICK_R,
+          SIXTH_PICK_R,
+          SEVENTH_PICK_R,
+          EIGHT_PICK_R,
+          NINTH_PICK_R,
+          TENTH_PICK_R,
+        ],
         bonus: BONUS_PICK,
         number: currentRaceNumber,
       }),
@@ -276,7 +336,11 @@ const Predict: NextPage<PageProps> = (props) => {
               date={new Date(race?.date as unknown as string)}
               leftButton={
                 !isPreviousButtonDisabled() ? (
-                  <button type="submit" onClick={handlePreviousButtonClick}>
+                  <button
+                    disabled
+                    type="submit"
+                    onClick={handlePreviousButtonClick}
+                  >
                     Vorige GP
                   </button>
                 ) : (
@@ -291,7 +355,11 @@ const Predict: NextPage<PageProps> = (props) => {
               }
               rightButton={
                 !isNextButtonDisabled() ? (
-                  <button type="submit" onClick={handleNextButtonClick}>
+                  <button
+                    disabled
+                    type="submit"
+                    onClick={handleNextButtonClick}
+                  >
                     Volgende GP
                   </button>
                 ) : (
@@ -325,20 +393,20 @@ const Predict: NextPage<PageProps> = (props) => {
                     if (prediction.user === currentName) {
                       return (
                         <Section key={prediction.number}>
-                          <PredictTopPicks
-                            type={'Kwalificatie'}
-                            firstPick={getNameByDriverNumer(
-                              prediction.kwali[0]
-                            )}
-                            secondPick={getNameByDriverNumer(
-                              prediction.kwali[1]
-                            )}
-                            thirdPick={getNameByDriverNumer(
-                              prediction.kwali[2]
-                            )}
-                          />
-                          <br></br>
-                          <br></br>
+                          {/* <PredictTopPicks */}
+                          {/*  type={'Kwalificatie'} */}
+                          {/*  firstPick={getNameByDriverNumer( */}
+                          {/*    prediction.kwali[0] */}
+                          {/*  )} */}
+                          {/*  secondPick={getNameByDriverNumer( */}
+                          {/*    prediction.kwali[1] */}
+                          {/*  )} */}
+                          {/*  thirdPick={getNameByDriverNumer( */}
+                          {/*    prediction.kwali[2] */}
+                          {/*  )} */}
+                          {/* /> */}
+                          {/* <br></br> */}
+                          {/* <br></br> */}
                           <PredictTopPicks
                             type={'Race'}
                             firstPick={getNameByDriverNumer(prediction.race[0])}
@@ -346,6 +414,17 @@ const Predict: NextPage<PageProps> = (props) => {
                               prediction.race[1]
                             )}
                             thirdPick={getNameByDriverNumer(prediction.race[2])}
+                            fourthPick={getNameByDriverNumer(
+                              prediction.race[3]
+                            )}
+                            fifthPick={getNameByDriverNumer(prediction.race[4])}
+                            sixthPick={getNameByDriverNumer(prediction.race[5])}
+                            seventhPick={getNameByDriverNumer(
+                              prediction.race[6]
+                            )}
+                            eightPick={getNameByDriverNumer(prediction.race[7])}
+                            ninthPick={getNameByDriverNumer(prediction.race[8])}
+                            tenthPick={getNameByDriverNumer(prediction.race[9])}
                             bonusPick={
                               race?.bonus_question ? (
                                 <>
@@ -363,62 +442,62 @@ const Predict: NextPage<PageProps> = (props) => {
                 </div>
               ) : (
                 <>
-                  <PredictTopPicks
-                    type={'Kwalificatie'}
-                    firstPick={
-                      <select
-                        name="first pick"
-                        id="first"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={FIRST_PICK_Q}
-                        onChange={handleSelectChangeFirst}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    secondPick={
-                      <select
-                        name="second pick"
-                        id="second"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={SECOND_PICK_Q}
-                        onChange={handleSelectChangeSecond}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                    thirdPick={
-                      <select
-                        name="third pick"
-                        id="third"
-                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
-                        style={{ fontSize: '1.25rem' }}
-                        value={THIRD_PICK_Q}
-                        onChange={handleSelectChangeThird}
-                      >
-                        <option value="">Selecteer een coureur</option>
-                        {drivers.map((driver) => (
-                          <option key={driver.name} value={driver.racenumber}>
-                            {driver.name} # {driver.racenumber}
-                          </option>
-                        ))}
-                      </select>
-                    }
-                  />
-                  <br></br>
-                  <br></br>
+                  {/* <PredictTopPicks */}
+                  {/*  type={'Kwalificatie'} */}
+                  {/*  firstPick={ */}
+                  {/*    <select */}
+                  {/*      name="first pick" */}
+                  {/*      id="first" */}
+                  {/*      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center" */}
+                  {/*      style={{ fontSize: '1.25rem' }} */}
+                  {/*      value={FIRST_PICK_Q} */}
+                  {/*      onChange={handleSelectChangeFirst} */}
+                  {/*    > */}
+                  {/*      <option value="">Selecteer een coureur</option> */}
+                  {/*      {drivers.map((driver) => ( */}
+                  {/*        <option key={driver.name} value={driver.racenumber}> */}
+                  {/*          {driver.name} # {driver.racenumber} */}
+                  {/*        </option> */}
+                  {/*      ))} */}
+                  {/*    </select> */}
+                  {/*  } */}
+                  {/*  secondPick={ */}
+                  {/*    <select */}
+                  {/*      name="second pick" */}
+                  {/*      id="second" */}
+                  {/*      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center" */}
+                  {/*      style={{ fontSize: '1.25rem' }} */}
+                  {/*      value={SECOND_PICK_Q} */}
+                  {/*      onChange={handleSelectChangeSecond} */}
+                  {/*    > */}
+                  {/*      <option value="">Selecteer een coureur</option> */}
+                  {/*      {drivers.map((driver) => ( */}
+                  {/*        <option key={driver.name} value={driver.racenumber}> */}
+                  {/*          {driver.name} # {driver.racenumber} */}
+                  {/*        </option> */}
+                  {/*      ))} */}
+                  {/*    </select> */}
+                  {/*  } */}
+                  {/*  thirdPick={ */}
+                  {/*    <select */}
+                  {/*      name="third pick" */}
+                  {/*      id="third" */}
+                  {/*      className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center" */}
+                  {/*      style={{ fontSize: '1.25rem' }} */}
+                  {/*      value={THIRD_PICK_Q} */}
+                  {/*      onChange={handleSelectChangeThird} */}
+                  {/*    > */}
+                  {/*      <option value="">Selecteer een coureur</option> */}
+                  {/*      {drivers.map((driver) => ( */}
+                  {/*        <option key={driver.name} value={driver.racenumber}> */}
+                  {/*          {driver.name} # {driver.racenumber} */}
+                  {/*        </option> */}
+                  {/*      ))} */}
+                  {/*    </select> */}
+                  {/*  } */}
+                  {/* /> */}
+                  {/* <br></br> */}
+                  {/* <br></br> */}
                   <PredictTopPicks
                     type={'Race'}
                     firstPick={
@@ -463,6 +542,125 @@ const Predict: NextPage<PageProps> = (props) => {
                         style={{ fontSize: '1.25rem' }}
                         value={THIRD_PICK_R}
                         onChange={handleSelectChangeThirdR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    fourthPick={
+                      <select
+                        name="fourth pick race"
+                        id="fourth_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={FOURTH_PICK_R}
+                        onChange={handleSelectChangeFourthR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    fifthPick={
+                      <select
+                        name="fifth pick race"
+                        id="fifth_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={FIFTH_PICK_R}
+                        onChange={handleSelectChangeFifthR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    sixthPick={
+                      <select
+                        name="sixth pick race"
+                        id="sixth_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={SIXTH_PICK_R}
+                        onChange={handleSelectChangeSixthR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    seventhPick={
+                      <select
+                        name="seventh pick race"
+                        id="seventh_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={SEVENTH_PICK_R}
+                        onChange={handleSelectChangeSeventhR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    eightPick={
+                      <select
+                        name="eight pick race"
+                        id="eight_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={EIGHT_PICK_R}
+                        onChange={handleSelectChangeEightR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    ninthPick={
+                      <select
+                        name="ninth pick race"
+                        id="ninth_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={NINTH_PICK_R}
+                        onChange={handleSelectChangeNinthR}
+                      >
+                        <option value="">Selecteer een coureur</option>
+                        {drivers.map((driver) => (
+                          <option key={driver.name} value={driver.racenumber}>
+                            {driver.name} # {driver.racenumber}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                    tenthPick={
+                      <select
+                        name="tenth pick race"
+                        id="tenth_race"
+                        className="w-1/2 px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-lg text-center"
+                        style={{ fontSize: '1.25rem' }}
+                        value={TENTH_PICK_R}
+                        onChange={handleSelectChangeTenthR}
                       >
                         <option value="">Selecteer een coureur</option>
                         {drivers.map((driver) => (

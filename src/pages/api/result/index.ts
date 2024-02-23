@@ -6,17 +6,7 @@ import { ResponseFuncs } from '../../../utils/types';
 
 // Function to calculate the points for a prediction and a race result
 async function calculatePoints(prediction: any, result: any) {
-  const goodKwaliMatches = prediction.kwali.reduce(
-    (count: number, predKwali: any, index: number) => {
-      if (predKwali === result.kwali[index]) {
-        return count + (AppConfig.points_good_pick_kwali[index] || 0);
-      }
-      return count;
-    },
-    0
-  );
-
-  const goodRaceMatches = prediction.race.reduce(
+  return prediction.race.reduce(
     (count: number, predRace: any, index: number) => {
       if (predRace === result.race[index]) {
         return count + (AppConfig.points_good_pick_race[index] || 0);
@@ -24,14 +14,6 @@ async function calculatePoints(prediction: any, result: any) {
       return count;
     },
     0
-  );
-
-  const bonus = prediction.bonus === result.bonus;
-
-  return (
-    goodKwaliMatches +
-    goodRaceMatches +
-    (bonus ? AppConfig.points_good_pick_bonus : 0)
   );
 }
 
