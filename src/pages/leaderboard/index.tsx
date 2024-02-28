@@ -124,6 +124,8 @@ const Leaderboard = () => {
         )}
         <br></br>
         <br></br>
+        <br></br>
+        <br></br>
       </div>
     </Background>
   );
