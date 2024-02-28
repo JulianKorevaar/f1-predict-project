@@ -68,7 +68,7 @@ const Leaderboard = () => {
                 .map((progressUser: any) => progressUser.points) || [
                 user.points,
               ]
-            : usersData.map((localUser: IUserProps) => localUser.points),
+            : [user.points],
         })),
       });
       setLoading(false);
