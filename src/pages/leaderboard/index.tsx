@@ -54,23 +54,21 @@ const Leaderboard = () => {
       const progressUserRes = await fetch(`/api/progress`);
       const progressUserData = await progressUserRes.json();
 
-      console.log(
-        progressUserData
-          .filter((user: any) => user.name === 'julian')
-          .map((user: any) => user.points)
-      );
-
       setUsers(usersData);
       setData({
         labels: raceData.map((race: IRaceProps) => race.race),
         datasets: usersData.map((user: IUserProps, index: number) => ({
           id: index,
           label: user.name,
-          pointRadius: 5,
-          pointHoverRadius: 10,
-          data: progressUserData
-            .filter((progressUser: any) => progressUser.name === user.name)
-            .map((progressUser: any) => progressUser.points) || [user.points],
+          pointRadius: 10,
+          pointHoverRadius: 15,
+          data: progressUserData.length
+            ? progressUserData
+                .filter((progressUser: any) => progressUser.name === user.name)
+                .map((progressUser: any) => progressUser.points) || [
+                user.points,
+              ]
+            : usersData.map((localUser: IUserProps) => localUser.points),
         })),
       });
       setLoading(false);
@@ -124,6 +122,8 @@ const Leaderboard = () => {
             }}
           />
         )}
+        <br></br>
+        <br></br>
       </div>
     </Background>
   );

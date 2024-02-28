@@ -73,7 +73,7 @@ const LandingPage = () => {
           </div>
         ) : (
           <HeroOneInput
-            title={<>{'Vul je naam in en code in\n'}</>}
+            title={<>{'Vul je naam en persoonlijke code in\n'}</>}
             input={
               <>
                 <input
