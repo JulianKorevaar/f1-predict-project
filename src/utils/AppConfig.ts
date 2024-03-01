@@ -12,6 +12,24 @@ export const AppConfig = {
   amount_of_race_picks: 3,
 };
 
+export const colors = [
+  'rgba(255, 99, 132, 1)', // red
+  'rgba(54, 162, 235, 1)', // blue
+  'rgba(255, 206, 86, 1)', // yellow
+  'rgba(75, 192, 192, 1)', // green
+  'rgba(153, 102, 255, 1)', // purple
+  'rgba(255, 159, 64, 1)', // orange
+  'rgba(255, 0, 0, 1)', // bright red
+  'rgba(0, 255, 0, 1)', // bright green
+  'rgba(0, 0, 255, 1)', // bright blue
+  'rgba(255, 255, 0, 1)', // bright yellow
+  'rgba(255, 0, 255, 1)', // bright magenta
+  'rgba(0, 255, 255, 1)', // bright cyan
+  'rgba(128, 0, 128, 1)', // dark purple
+  'rgba(128, 128, 0, 1)', // olive
+  'rgba(0, 128, 128, 1)', // teal
+];
+
 export const Results2023 = [
   {
     name: 'Julian',

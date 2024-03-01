@@ -10,7 +10,7 @@ import { Leaderboard as LeaderboardComponent } from '../../components/leaderboar
 import { LeaderboardHeader } from '../../components/leaderboard/LeaderboardHeader';
 import { LoadingIndicator } from '../../components/loading/LoadingIndicator';
 import { Section } from '../../layout/Section';
-import { AppConfig } from '../../utils/AppConfig';
+import { AppConfig, colors } from '../../utils/AppConfig';
 
 type IUserProps = {
   name: string;
@@ -62,6 +62,7 @@ const Leaderboard = () => {
           label: user.name,
           pointRadius: 10,
           pointHoverRadius: 15,
+          backgroundColor: colors[index % colors.length],
           data: progressUserData.length
             ? progressUserData
                 .filter((progressUser: any) => progressUser.name === user.name)
