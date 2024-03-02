@@ -28,7 +28,7 @@ const LandingPage = () => {
       return;
     }
 
-    const res = await fetch(`/api/users/${name.toLowerCase()}-${code}`);
+    const res = await fetch(`/api/users/${name.trim().toLowerCase()}-${code}`);
     const user = await res.json();
 
     if (user.length === 0) {
@@ -52,10 +52,10 @@ const LandingPage = () => {
           points: 0,
         }),
       }).then(() => {
-        localStorage.setItem('name', name.toLowerCase());
+        localStorage.setItem('name', name.trim().toLowerCase());
       });
     } else {
-      localStorage.setItem('name', name.toLowerCase());
+      localStorage.setItem('name', name.trim().toLowerCase());
     }
 
     await router.push(`/predict/${AppConfig.current_race}`);
