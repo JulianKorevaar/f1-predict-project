@@ -63,6 +63,7 @@ const Leaderboard = () => {
           pointRadius: 10,
           pointHoverRadius: 15,
           backgroundColor: colors[index % colors.length],
+          borderColor: colors[index % colors.length],
           data: progressUserData.length
             ? progressUserData
                 .filter((progressUser: any) => progressUser.name === user.name)
