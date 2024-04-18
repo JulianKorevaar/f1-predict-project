@@ -165,10 +165,10 @@ const Predict: NextPage<PageProps> = (props) => {
 
   const handlePredictButtonClick = async () => {
     const deadline = moment(race?.date)
-      .subtract(1, 'days')
+      .subtract(2, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(7, 59, 59, 59);
+    deadline.setHours(9, 29, 59, 59);
 
     if (currentName === null || currentName === '') {
       alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
