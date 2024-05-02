@@ -14,8 +14,8 @@ type IHeroRaceInfoProps = {
 
 const PredictRaceInfo = (props: IHeroRaceInfoProps) => {
   // Create a new Date object for the deadline (2 days before the race date)
-  const deadline = moment(props.date).subtract(2, 'days').toDate();
-  deadline.setHours(9, 29, 59, 59);
+  const deadline = moment(props.date).subtract(1, 'days').toDate();
+  deadline.setHours(21, 59, 59, 59);
 
   return (
     <header className="text-center">
