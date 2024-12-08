@@ -255,7 +255,7 @@ const Predict: NextPage<PageProps> = (props) => {
                   type="submit"
                   onClick={openLeaderboard}
                 >
-                  Bekijk tussenstand
+                  Bekijk uitslag
                 </button>
               }
               race={race?.race}
