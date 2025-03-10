@@ -79,7 +79,7 @@ const LandingPage = () => {
                   name="name"
                   id="name"
                   placeholder="John Smith"
-                  className="w-full font-f1regular px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
+                  className="w-[80%] font-f1regular px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
                   style={{ fontSize: '1.25rem', backgroundColor: '#1E293B' }}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -89,7 +89,7 @@ const LandingPage = () => {
             button={
               <button
                 type="submit"
-                className="w-1/2 px-4 py-3 border font-f1regular border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-600 md:py-4 md:text-lg md:px-10"
+                className="px-4 py-3 border font-f1regular border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-600 md:py-4 md:text-lg md:px-10"
                 onClick={handleButtonClick}
               >
                 Start met voorspellen

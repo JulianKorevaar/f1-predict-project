@@ -12,12 +12,12 @@ type ILeaderboardProps = {
 
 const Leaderboard = ({ results }: ILeaderboardProps) => {
   return (
-    <div className="rounded-2xl shadow-lg mx-auto bg-white min-w-[450px]">
-      {/* Added min-width for the container */}
+    <div className="rounded-2xl shadow-lg mx-auto bg-white lg:min-w-[400px] sm:min-w-[300px]">
+      {/* Added max-width and padding for responsiveness */}
       {results.map((result, index) => (
         <div
           key={result.name}
-          className={`flex items-center justify-between
+          className={`flex items-center justify-between pl-4
               ${index % 2 === 0 ? 'bg-gray-50' : 'bg-gray-200'}
               ${index !== results.length - 1 ? 'border-b border-white' : ''}
               rounded-lg`}
@@ -33,16 +33,13 @@ const Leaderboard = ({ results }: ILeaderboardProps) => {
               .split(' ')
               .map((name, nameIndex, arr) => {
                 if (nameIndex === 0) {
-                  // Capitalize the first letter and keep the rest lowercase for the first name
                   return (
                     name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
                   );
                 }
                 if (nameIndex === arr.length - 1) {
-                  // Last name stays in uppercase
                   return name.toUpperCase();
                 }
-                // For any middle names, return them as they are (capitalize first letter, rest lowercase)
                 return (
                   name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
                 );
