@@ -14,7 +14,6 @@ export const connect = async () => {
   // OUR USER SCHEMA
   const UserSchema = new mongoose.Schema({
     name: String,
-    code: String,
     points: Number,
   });
 

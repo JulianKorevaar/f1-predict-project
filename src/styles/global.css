@@ -3,3 +3,17 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@font-face {
+    font-family: 'F1Regular400';
+    src: url('/fonts/F1Regular400.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'F1Regular900';
+    src: url('/fonts/F1Regular900.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}

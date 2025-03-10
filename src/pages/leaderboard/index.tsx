@@ -93,7 +93,7 @@ const Leaderboard = () => {
     >
       <div className="overflow-y-auto h-full">
         <Section yPadding="pt-20 pb-32">
-          <LeaderboardHeader title={<>{'Uitslag\n'}</>} />
+          <LeaderboardHeader title={<>{'2025 TUSSENSTAND\n'}</>} />
           <br />
           {loading ? (
             <div className="flex justify-center items-center h-full">
@@ -104,7 +104,7 @@ const Leaderboard = () => {
               <LeaderboardComponent results={sortedUsers} />
               <button
                 onClick={handleGoBack}
-                className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded mt-4"
+                className="bg-red-600 hover:bg-red-700 text-white font-f1regular font-bold py-2 px-4 rounded mt-4"
               >
                 Terug naar voorspellingen
               </button>

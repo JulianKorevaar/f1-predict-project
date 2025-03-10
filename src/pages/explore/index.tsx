@@ -13,7 +13,6 @@ const LandingPage = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState('');
-  const [code, setCode] = useState<number>();
   const [error, setError] = useState('');
 
   const [areYouSure, setAreYouSure] = useState(false);
@@ -22,13 +21,13 @@ const LandingPage = () => {
     setLoading(true);
     setError('');
 
-    if (name === '' || code === undefined) {
+    if (name === '') {
       setLoading(false);
-      setError('Vul je naam en code in');
+      setError('Vul je voor- en achternaam in.');
       return;
     }
 
-    const res = await fetch(`/api/users/${name.trim().toLowerCase()}-${code}`);
+    const res = await fetch(`/api/users/${name.trim().toLowerCase()}`);
     const user = await res.json();
 
     if (user.length === 0) {
@@ -48,7 +47,6 @@ const LandingPage = () => {
         },
         body: JSON.stringify({
           name: name.trim().toLowerCase(),
-          code,
           points: 0,
         }),
       }).then(() => {
@@ -73,35 +71,25 @@ const LandingPage = () => {
           </div>
         ) : (
           <HeroOneInput
-            title={<>{'Vul je naam en persoonlijke code in\n'}</>}
+            title={<>{'Vul je voor- en achternaam in\n'}</>}
             input={
               <>
                 <input
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Vul hier je naam in"
-                  className="w-full px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
+                  placeholder="John Smith"
+                  className="w-full font-f1regular px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
                   style={{ fontSize: '1.25rem', backgroundColor: '#1E293B' }}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                ></input>
-                <input
-                  type="number"
-                  name="code"
-                  id="code"
-                  placeholder="Vul hier je code in"
-                  className="w-half mt-5 px-4 py-3 border border-primary-700 rounded-xl shadow-sm focus:ring-primary-600 focus:border-primary-600 text-lg text-gray-50 placeholder-gray-600 text-center"
-                  style={{ fontSize: '1.25rem', backgroundColor: '#1E293B' }}
-                  value={code}
-                  onChange={(e) => setCode(Number(e.target.value))}
                 ></input>
               </>
             }
             button={
               <button
                 type="submit"
-                className="w-1/2 px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-sky-500 hover:bg-sky-600 md:py-4 md:text-lg md:px-10"
+                className="w-1/2 px-4 py-3 border font-f1regular border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-600 md:py-4 md:text-lg md:px-10"
                 onClick={handleButtonClick}
               >
                 Start met voorspellen

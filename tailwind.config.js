@@ -4,6 +4,8 @@ module.exports = {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
+      f1regular: ['F1Regular400', 'sans-serif'],
+      f1bold: ['F1Regular900', 'sans-serif'],
     },
     fontSize: {
       xs: '0.75rem',

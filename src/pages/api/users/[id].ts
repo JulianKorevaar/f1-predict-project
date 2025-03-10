@@ -20,14 +20,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     GET: async (_req: NextApiRequest, resGET: NextApiResponse) => {
       const { User } = await connect(); // connect to database
 
-      const data = id.split('-');
-      const name = data[0];
-      const code = data[1];
+      if (!id) return resGET.status(400).json({ error: 'Invalid ID' });
 
-      if (!name || !code)
-        return resGET.status(400).json({ error: 'Invalid ID' });
-
-      resGET.json(await User.find({ name, code }).catch(catcher));
+      resGET.json(await User.find({ name: id }).catch(catcher));
     },
     // RESPONSE PUT REQUESTS
     PUT: async (reqPUT: NextApiRequest, resPUT: NextApiResponse) => {

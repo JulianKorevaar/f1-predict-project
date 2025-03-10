@@ -168,7 +168,7 @@ const Predict: NextPage<PageProps> = (props) => {
       .subtract(1, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(14, 59, 59, 59);
+    deadline.setHours(5, 59, 59, 59);
 
     if (currentName === null || currentName === '') {
       alert('Je bent niet (goed) ingelogd, log alsjeblieft opnieuw in!');
@@ -251,11 +251,11 @@ const Predict: NextPage<PageProps> = (props) => {
             <PredictRaceInfo
               leaderBoard={
                 <button
-                  className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-md mt-4"
+                  className="bg-red-600 hover:bg-red-700 font-f1regular text-white font-bold py-2 px-4 rounded-md mt-4"
                   type="submit"
                   onClick={openLeaderboard}
                 >
-                  Bekijk uitslag
+                  Bekijk tussenstand
                 </button>
               }
               race={race?.race}
@@ -305,7 +305,7 @@ const Predict: NextPage<PageProps> = (props) => {
                 <div className="text-gray-50 text-sm text-center">
                   <h1> Je hebt al gestemd voor deze race. </h1>
                   <button
-                    className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded mt-4"
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
                     type="submit"
                     onClick={() =>
                       router.push(`/predict/result/${currentRaceNumber}`)
