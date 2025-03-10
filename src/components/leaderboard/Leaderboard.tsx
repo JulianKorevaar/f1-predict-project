@@ -31,14 +31,14 @@ const Leaderboard = ({ results }: ILeaderboardProps) => {
           <span className="text-lg font-f1bold flex-1 text-center text-black tracking-wide">
             {result.name
               .split(' ')
-              .map((name, index, arr) => {
-                if (index === 0) {
+              .map((name, nameIndex, arr) => {
+                if (nameIndex === 0) {
                   // Capitalize the first letter and keep the rest lowercase for the first name
                   return (
                     name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
                   );
                 }
-                if (index === arr.length - 1) {
+                if (nameIndex === arr.length - 1) {
                   // Last name stays in uppercase
                   return name.toUpperCase();
                 }
