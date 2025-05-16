@@ -165,7 +165,7 @@ const Predict: NextPage<PageProps> = (props) => {
 
   const handlePredictButtonClick = async () => {
     const deadline = moment(race?.date)
-      .subtract(2, 'days')
+      .subtract(1, 'days')
       .local() // convert to local time zone
       .toDate();
     deadline.setHours(15, 59, 59, 59);
