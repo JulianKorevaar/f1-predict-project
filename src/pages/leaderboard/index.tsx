@@ -93,7 +93,7 @@ const Leaderboard = () => {
     >
       <div className="overflow-y-auto h-full">
         <Section yPadding="pt-20 pb-32">
-          <LeaderboardHeader title={<>{'2025 TUSSENSTAND\n'}</>} />
+          <LeaderboardHeader title={<>{'2025 EINDSTAND\n'}</>} />
           <br />
           {loading ? (
             <div className="flex justify-center items-center h-full">
