@@ -23,7 +23,7 @@ const Hero = () => {
             <img
               src="/assets/images/f1_logo.png"
               alt="F1 Logo"
-              className="w-40 sm:w-48 h-10 sm:h-12 animate-pulse"
+              className="w-40 sm:w-48 h-10 sm:h-12 animate-pulse mt-2"
             />
           </div>
 

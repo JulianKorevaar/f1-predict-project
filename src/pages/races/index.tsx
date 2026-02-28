@@ -78,6 +78,7 @@ const RacesPage = () => {
         </div>
 
         {/* Loading State */}
+        {/* eslint-disable-next-line no-nested-ternary */}
         {loading ? (
           <div className="flex justify-center items-center min-h-96">
             <div className="flex flex-col items-center gap-4">
