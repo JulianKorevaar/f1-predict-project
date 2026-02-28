@@ -88,7 +88,7 @@ const Leaderboard = () => {
 
   return (
     <Background
-      color="linear-gradient(to bottom, #0F172A, #0F172A)"
+      color="linear-gradient(to bottom, #15141D, #15151E)"
       className="h-screen fixed inset-0"
     >
       <div className="overflow-y-auto h-full">

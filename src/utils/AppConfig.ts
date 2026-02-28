@@ -7,7 +7,7 @@ export const AppConfig = {
   points_good_pick_race: [3, 2, 1],
   points_good_pick_bonus: 3,
   amount_of_races: 24,
-  current_race: 24,
+  current_race: 1,
   amount_of_kwali_picks: 3,
   amount_of_race_picks: 3,
 };
@@ -129,5 +129,56 @@ export const Results2024 = [
   {
     name: 'Lars',
     points: 30,
+  },
+];
+
+export const Results2025 = [
+  {
+    name: 'Melissa',
+    points: 107,
+  },
+  {
+    name: 'Merijn',
+    points: 105,
+  },
+  {
+    name: 'Ard',
+    points: 104,
+  },
+  {
+    name: 'Roger',
+    points: 97,
+  },
+  {
+    name: 'Dirk',
+    points: 95,
+  },
+  {
+    name: 'Julian',
+    points: 60,
+  },
+  {
+    name: 'Arie-Chris',
+    points: 57,
+  },
+  {
+    name: 'Arlon',
+    points: 46,
+  },
+  {
+    name: 'Sylvana',
+    points: 32,
+  },
+  {
+    name: 'Jeffrey',
+    points: 28,
+  },
+  {
+    name: 'Deveny',
+    points: 16,
+  },
+  {
+    name: 'Lars',
+    points: 9,
   },
 ];
