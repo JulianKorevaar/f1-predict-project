@@ -153,7 +153,7 @@ const Predict: NextPage<PageProps> = (props) => {
       .subtract(1, 'days')
       .local() // convert to local time zone
       .toDate();
-    deadline.setHours(14, 59, 59, 59);
+    deadline.setHours(5, 59, 59, 59);
 
     if (currentName === null || currentName === '') {
       setToast({
@@ -254,7 +254,7 @@ const Predict: NextPage<PageProps> = (props) => {
             <div className="flex flex-col items-center gap-4">
               <LoadingIndicator />
               <p className="text-white text-lg font-f1bold animate-pulse">
-                Loading race...
+                Race laden...
               </p>
             </div>
           </div>

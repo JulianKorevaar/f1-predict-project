@@ -95,7 +95,7 @@ const RaceTile = ({ race, isCurrentRace }: IRaceTileProps) => {
           {/* Current Race Badge */}
           {isCurrentRace && (
             <div className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-f1bold animate-pulse">
-              CURRENT
+              HUIDIGE
             </div>
           )}
         </div>

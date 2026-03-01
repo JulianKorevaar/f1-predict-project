@@ -84,7 +84,7 @@ const RacesPage = () => {
             <div className="flex flex-col items-center gap-4">
               <LoadingIndicator />
               <p className="text-white text-lg font-f1bold animate-pulse">
-                Loading races...
+                Laden...
               </p>
             </div>
           </div>
