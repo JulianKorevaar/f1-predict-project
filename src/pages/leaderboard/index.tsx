@@ -66,6 +66,7 @@ const Leaderboard = () => {
           borderColor: colors[index % colors.length],
           data: progressUserData.length
             ? progressUserData
+                .sort((a: any, b: any) => a.raceNumber - b.raceNumber)
                 .filter((progressUser: any) => progressUser.name === user.name)
                 .map((progressUser: any) => progressUser.points) || [
                 user.points,
